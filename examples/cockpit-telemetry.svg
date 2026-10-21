@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 628" width="960" height="628" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace">
 <title>Cockpit Telemetry: maxhayim</title>
-<rect width="960" height="628" rx="10" fill="#020d07"/>
+<rect y="0" width="960" height="628" rx="10" fill="#020d07"/>
 <text x="16" y="34" font-size="18" fill="#5dff95" text-anchor="start" font-weight="700" letter-spacing="3">COCKPIT TELEMETRY</text>
 <text x="286" y="34" font-size="11" fill="#ffb347" text-anchor="start" letter-spacing="1.5">CALLSIGN MAXHAYIM</text>
 <text x="944" y="34" font-size="14" fill="#5dff95" text-anchor="end">מקס חיים</text>

@@ -10,13 +10,19 @@ inputs:
     description: GitHub user whose stats to show.
     required: true
   outputs:
-    description: One output file per line, e.g. dist/cockpit-telemetry.svg
+    description: |
+      One output file per line. Add ?header=false to hide the title bar for that file.
+      Example: dist/cockpit-telemetry.svg?header=false
     required: false
     default: dist/cockpit-telemetry.svg
   timezone:
     description: IANA time zone for the Duty Cycle clock, e.g. America/New_York.
     required: false
     default: UTC
+  header:
+    description: Show the title bar with the title, callsign and name. Set to false to hide it for outputs that don't set ?header=.
+    required: false
+    default: "true"
   github_token:
     description: Token used to read profile stats from the GitHub API.
     required: false
@@ -32,6 +38,7 @@ runs:
       env:
         GITHUB_TOKEN: ${{ inputs.github_token }}
         COCKPIT_TELEMETRY_TZ: ${{ inputs.timezone }}
+        COCKPIT_TELEMETRY_HEADER: ${{ inputs.header }}
         CT_USER: ${{ inputs.github_user_name }}
         CT_OUTPUTS: ${{ inputs.outputs }}
       run: node "${{ github.action_path }}/src/cli.mjs" "$CT_USER" "$CT_OUTPUTS"

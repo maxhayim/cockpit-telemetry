@@ -264,16 +264,18 @@ function annunciators(s, y) {
   }).join("\n");
 }
 
-export function buildSvg(s) {
-  const header = [
+// header: false drops the title bar (title, callsign and name) and crops the canvas to the panels.
+export function buildSvg(s, { header: showHeader = true } = {}) {
+  const top = showHeader ? 0 : 44, h = H - top;
+  const header = !showHeader ? "" : [
     text(16, 34, "COCKPIT TELEMETRY", { size: 18, weight: 700, extra: ` letter-spacing="3"` }),
     text(286, 34, `CALLSIGN ${s.login.toUpperCase()}`, { size: 11, fill: T.amber, extra: ` letter-spacing="1.5"` }),
     `<text x="${W - 16}" y="34" font-size="14" fill="${T.text}" text-anchor="end">${esc(s.name)}</text>`,
     `<line x1="16" y1="46" x2="${W - 16}" y2="46" stroke="${T.border}"/>`,
   ].join("\n");
-  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" font-family="${FONT}">
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 ${top} ${W} ${h}" width="${W}" height="${h}" font-family="${FONT}">
 <title>Cockpit Telemetry: ${esc(s.login)}</title>
-<rect width="${W}" height="${H}" rx="10" fill="${T.bg}"/>
+<rect y="${top}" width="${W}" height="${h}" rx="10" fill="${T.bg}"/>
 ${header}
 ${pfd(s, 16, 56)}
 ${nd(s, 352, 56)}

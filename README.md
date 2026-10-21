@@ -34,6 +34,7 @@
   <li><strong>Duty cycle:</strong> a 24-hour clock of when you're active, in your own time zone</li>
   <li><strong>ATC log:</strong> your latest public events (pushes, releases, pull requests and more), typed in one line at a time</li>
   <li><strong>Annunciators:</strong> status lamps for pull requests, issues, forks, account age and the last sync time</li>
+  <li><strong>Optional title bar:</strong> hide the title, callsign and name with <code>header: false</code> when your README already has its own heading (see <a href="#hiding-the-title-bar">Hiding the Title Bar</a>)</li>
   <li><strong>Zero dependencies:</strong> plain Node.js, nothing to install</li>
   <li>Works with the built-in <code>GITHUB_TOKEN</code></li>
 </ul>
@@ -112,17 +113,39 @@
 <table>
   <tr><th>Input</th><th>Default</th><th>Description</th></tr>
   <tr><td><code>github_user_name</code></td><td>(required)</td><td>User whose stats to show.</td></tr>
-  <tr><td><code>outputs</code></td><td><code>dist/cockpit-telemetry.svg</code></td><td>One file per line.</td></tr>
+  <tr><td><code>outputs</code></td><td><code>dist/cockpit-telemetry.svg</code></td><td>One file per line. Add <code>?header=false</code> to hide the title bar for that file.</td></tr>
   <tr><td><code>timezone</code></td><td><code>UTC</code></td><td>IANA time zone for the Duty Cycle clock, e.g. <code>America/New_York</code>.</td></tr>
+  <tr><td><code>header</code></td><td><code>true</code></td><td>Show the title bar with the title, callsign and name. Set to <code>false</code> to hide it.</td></tr>
   <tr><td><code>github_token</code></td><td><code>github.token</code></td><td>Token used to read profile stats from the GitHub API.</td></tr>
 </table>
+
+<h3>Hiding the Title Bar</h3>
+
+<p>The top bar shows the title, your callsign (username) and your display name. Set <code>header: false</code> to hide it and crop the image to just the instrument panels, which suits a README that already has its own heading:</p>
+
+```yaml
+      - uses: maxhayim/cockpit-telemetry@v1
+        with:
+          github_user_name: ${{ github.repository_owner }}
+          header: false
+          outputs: dist/cockpit-telemetry.svg
+```
+
+<p>To render both versions in one run, set it per file instead:</p>
+
+```yaml
+          outputs: |
+            dist/cockpit-telemetry.svg
+            dist/cockpit-telemetry-panels.svg?header=false
+```
 
 <h3>Running Locally</h3>
 
 <pre><code>git clone https://github.com/maxhayim/cockpit-telemetry.git
 cd cockpit-telemetry
 GITHUB_TOKEN=$(gh auth token) node src/cli.mjs &lt;user&gt; out/cockpit-telemetry.svg
-GITHUB_TOKEN=$(gh auth token) COCKPIT_TELEMETRY_TZ=Europe/London node src/cli.mjs &lt;user&gt; out/cockpit-telemetry.svg</code></pre>
+GITHUB_TOKEN=$(gh auth token) COCKPIT_TELEMETRY_TZ=Europe/London node src/cli.mjs &lt;user&gt; out/cockpit-telemetry.svg
+GITHUB_TOKEN=$(gh auth token) node src/cli.mjs &lt;user&gt; 'out/cockpit-telemetry.svg?header=false'</code></pre>
 
 <p>To work on the design without calling the API, render from a saved stats file such as <code>examples/stats.json</code>:</p>
 
